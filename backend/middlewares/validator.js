@@ -2,7 +2,7 @@ const { check, validationResult } = require("express-validator");
 
 exports.userValidtor = [
   check("name").trim().not().isEmpty().withMessage("Name is missing!"),
-  check("email").normalizeEmail().isEmail().withMessage("Email is invalid!"),
+  check("email").isEmail().withMessage("Email is invalid!"),
   check("password")
     .trim()
     .not()

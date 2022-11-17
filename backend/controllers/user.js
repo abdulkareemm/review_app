@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const _ = require("lodash")
 
 exports.create = async (req, res) => {
   const { name, email, password } = req.body;
@@ -12,6 +13,6 @@ exports.create = async (req, res) => {
   await newUser.save();
 
   res.status(201).json({
-    user: newUser,
+    user: _.omit(newUser.toObject(),["__v","password"]),
   });
 };
