@@ -16,7 +16,7 @@ exports.createActor = async (req, res) => {
     newActor.avatar = { url, public_id };
   }
   await newActor.save();
-  res.status(201).json(formatActor(actor));
+  res.status(201).json(formatActor(newActor));
 };
 
 // update
@@ -85,7 +85,9 @@ exports.removeActor = async (req, res) => {
 exports.searchActor = async (req, res) => {
   const { query } = req;
   const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
-
+  if (result.length === 0) {
+    return res.json({ message: "Actor not found" });
+  }
   const actors = result.map((actor) => formatActor(actor));
 
   res.json(actors);
@@ -93,6 +95,9 @@ exports.searchActor = async (req, res) => {
 
 exports.getLatestActors = async (req, res) => {
   const result = await Actor.find().sort({ createdAt: "-1" }).limit(12);
+  if (result.length === 0) {
+    return res.json({ message: "There is not any actor" });
+  }
 
   const actors = result.map((actor) => formatActor(actor));
 
