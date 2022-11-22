@@ -27,7 +27,7 @@ exports.create = async (req, res) => {
     owner: newUser._id,
     token: OTP,
   });
-
+console.log(newEmailVerificationToken);
   await newEmailVerificationToken.save();
 
   // send that otp to our user
